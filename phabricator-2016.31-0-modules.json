@@ -1,0 +1,29 @@
+{
+  "localModules": [
+    {
+      "name": "php",
+      "fullVersion": "5.6.24-1"
+    },
+    {
+      "name": "apache",
+      "fullVersion": "2.4.23-1"
+    },
+    {
+      "name": "libphp",
+      "fullVersion": "5.6.21-2"
+    },
+    {
+      "name": "git",
+      "fullVersion": "2.6.1-1"
+    },
+    {
+      "name": "mysql-client",
+      "fullVersion": "10.1.13-4"
+    },
+    {
+      "name": "phabricator",
+      "fullVersion": "undefined-undefined"
+    }
+  ],
+  "additionalServices": []
+}

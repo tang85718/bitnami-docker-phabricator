@@ -56,31 +56,31 @@ If you want to run the application manually instead of using `docker-compose`, t
 
 1. Create a network
 
-```bash
-$ docker network create phabricator-tier
-```
+  ```bash
+  $ docker network create phabricator-tier
+  ```
 
 2. Create a volume for MariaDB persistence and create a MariaDB container
 
-```bash
-$ docker volume create --name mariadb_data
-$ docker run -d --name mariadb \
-  --net phabricator-tier \
-  --volume mariadb_data:/bitnami/mariadb \
-  bitnami/mariadb:latest
-```
+  ```bash
+  $ docker volume create --name mariadb_data
+  $ docker run -d --name mariadb \
+    --net phabricator-tier \
+    --volume mariadb_data:/bitnami/mariadb \
+    bitnami/mariadb:latest
+  ```
 
 3. Create volumes for Phabricator persistence and launch the container
 
-```bash
-$ docker volume create --name phabricator_data
-$ docker volume create --name apache_data
-$ docker run -d --name phabricator -p 80:80 -p 443:443 \
-  --net phabricator-tier \
-  --volume phabricator_data:/bitnami/phabricator \
-  --volume apache_data:/bitnami/apache \
-  bitnami/phabricator:latest
-```
+  ```bash
+  $ docker volume create --name phabricator_data
+  $ docker volume create --name apache_data
+  $ docker run -d --name phabricator -p 80:80 -p 443:443 \
+    --net phabricator-tier \
+    --volume phabricator_data:/bitnami/phabricator \
+    --volume apache_data:/bitnami/apache \
+    bitnami/phabricator:latest
+  ```
 
 Access your application at http://your-ip/
 
@@ -124,22 +124,22 @@ $ docker network create phabricator-tier
 
 2. Create a MariaDB container with host volume
 
-```bash
-$ docker run -d --name mariadb \
-  --net phabricator-tier \
-  --volume /path/to/mariadb-persistence:/bitnami/mariadb \
-  bitnami/mariadb:latest
-```
+  ```bash
+  $ docker run -d --name mariadb \
+    --net phabricator-tier \
+    --volume /path/to/mariadb-persistence:/bitnami/mariadb \
+    bitnami/mariadb:latest
+  ```
 
 3. Create the Phabricator the container with host volumes
 
-```bash
-$ docker run -d --name phabricator -p 80:80 -p 443:443 \
-  --net phabricator-tier \
-  --volume /path/to/phabricator-persistence:/bitnami/phabricator \
-  --volume /path/to/apache-persistence:/bitnami/apache \
-  bitnami/phabricator:latest
-```
+  ```bash
+  $ docker run -d --name phabricator -p 80:80 -p 443:443 \
+    --net phabricator-tier \
+    --volume /path/to/phabricator-persistence:/bitnami/phabricator \
+    --volume /path/to/apache-persistence:/bitnami/apache \
+    bitnami/phabricator:latest
+  ```
 
 # Upgrading Phabricator
 
@@ -157,45 +157,45 @@ $ docker pull bitnami/phabricator:latest
 
 1. Stop the running Phabricator container
 
-```bash
-$ docker-compose stop phabricator
-```
+  ```bash
+  $ docker-compose stop phabricator
+  ```
 
 2. Remove the stopped container
 
-```bash
-$ docker-compose rm phabricator
-```
+  ```bash
+  $ docker-compose rm phabricator
+  ```
 
 3. Launch the updated Phabricator image
 
-```bash
-$ docker-compose start phabricator
-```
+  ```bash
+  $ docker-compose start phabricator
+  ```
 
 ## Using Docker command line
 
 1. Stop the running Phabricator container
 
-```bash
-$ docker stop phabricator
-```
+  ```bash
+  $ docker stop phabricator
+  ```
 
 2. Remove the stopped container
 
-```bash
-$ docker rm phabricator
-```
+  ```bash
+  $ docker rm phabricator
+  ```
 
 3. Launch the updated Phabricator image
 
-```bash
-$ docker run -d --name phabricator -p 80:80 -p 443:443 \
-  --net phabricator-tier \
-  --volume phabricator_data:/bitnami/phabricator \
-  --volume apache_data:/bitnami/apache \
-  bitnami/phabricator:latest
-```
+  ```bash
+  $ docker run -d --name phabricator -p 80:80 -p 443:443 \
+    --net phabricator-tier \
+    --volume phabricator_data:/bitnami/phabricator \
+    --volume apache_data:/bitnami/apache \
+    bitnami/phabricator:latest
+  ```
 
 > **NOTE**:
 >
@@ -302,43 +302,43 @@ To backup your application data follow these steps:
 
 1. Stop the Phabricator container:
 
-```bash
-$ docker-compose stop phabricator
-```
+  ```bash
+  $ docker-compose stop phabricator
+  ```
 
 2. Copy the Phabricator and Apache data
 
-```bash
-$ docker cp $(docker-compose ps -q phabricator):/bitnami/phabricator/ /path/to/backups/phabricator/latest/
-$ docker cp $(docker-compose ps -q phabricator):/bitnami/apache/ /path/to/backups/apache/latest/
-```
+  ```bash
+  $ docker cp $(docker-compose ps -q phabricator):/bitnami/phabricator/ /path/to/backups/phabricator/latest/
+  $ docker cp $(docker-compose ps -q phabricator):/bitnami/apache/ /path/to/backups/apache/latest/
+  ```
 
 3. Start the Phabricator container
 
-```bash
-$ docker-compose start phabricator
-```
+  ```bash
+  $ docker-compose start phabricator
+  ```
 
 ## Backing up using the Docker command line
 
 1. Stop the Phabricator container:
 
-```bash
-$ docker stop phabricator
-```
+  ```bash
+  $ docker stop phabricator
+  ```
 
 2. Copy the Phabricator and Apache data
 
-```bash
-$ docker cp phabricator:/bitnami/phabricator/ /path/to/backups/phabricator/latest/
-$ docker cp phabricator:/bitnami/apache/ /path/to/backups/apache/latest/
-```
+  ```bash
+  $ docker cp phabricator:/bitnami/phabricator/ /path/to/backups/phabricator/latest/
+  $ docker cp phabricator:/bitnami/apache/ /path/to/backups/apache/latest/
+  ```
 
 3. Start the Phabricator container
 
-```bash
-$ docker start phabricator
-```
+  ```bash
+  $ docker start phabricator
+  ```
 
 # Restoring a backup
 

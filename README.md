@@ -1,3 +1,4 @@
+[![Docker Hub Automated Build](http://container.checkforupdates.com/badges/bitnami/phabricator)](https://hub.docker.com/r/bitnami/phabricator/)
 # What is Phabricator?
 
 > Phabricator is a collection of open source web applications that help software companies build better software. Phabricator is built by developers for developers. Every feature is optimized around developer efficiency for however you like to work. Code Quality starts with effective collaboration between team members.

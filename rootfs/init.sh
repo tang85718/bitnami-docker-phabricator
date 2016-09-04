@@ -10,6 +10,6 @@ _forwardTerm () {
 
 trap _forwardTerm TERM
 
-harpoon start --foreground phabricator &
-harpoon start --foreground apache &
+nami start --foreground phabricator &
+nami start --foreground apache &
 wait

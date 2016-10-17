@@ -3,7 +3,7 @@ FROM gcr.io/stacksmith-images/ubuntu:14.04-r10
 MAINTAINER Bitnami <containers@bitnami.com>
 
 ENV BITNAMI_APP_NAME=phabricator \
-    BITNAMI_IMAGE_VERSION=2016.40-r0 \
+    BITNAMI_IMAGE_VERSION=2016.41-r0 \
     PATH=/opt/bitnami/arcanist/bin:/opt/bitnami/php/bin:/opt/bitnami/mysql/bin:$PATH
 
 # Additional modules required
@@ -14,7 +14,7 @@ RUN bitnami-pkg install git-2.6.1-2 --checksum edc04dc263211f3ffdc953cb96e5e3e76
 RUN bitnami-pkg install mysql-client-10.1.13-4 --checksum 14b45c91dd78b37f0f2366712cbe9bfdf2cb674769435611955191a65dbf4976
 
 # Install phabricator
-RUN bitnami-pkg unpack phabricator-2016.40-0 --checksum a3afe1f41707a682c439d5ffb54971d2c206a2af773e41886c8c84b6c1e36617
+RUN bitnami-pkg unpack phabricator-2016.41-0 --checksum 0a561bf74347264e66510781739d21227067e87c46f60a7f1b9cecc276b620bc
 
 COPY rootfs /
 

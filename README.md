@@ -120,9 +120,9 @@ services:
 
 1. Create a network (if it does not exist)
 
-```bash
-$ docker network create phabricator-tier
-```
+  ```bash
+  $ docker network create phabricator-tier
+  ```
 
 2. Create a MariaDB container with host volume
 

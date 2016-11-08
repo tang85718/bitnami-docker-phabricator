@@ -1,3 +1,4 @@
+[![CircleCI](https://circleci.com/gh/bitnami/bitnami-docker-phabricator/tree/master.svg?style=shield)](https://circleci.com/gh/bitnami/bitnami-docker-phabricator/tree/master)
 [![Docker Hub Automated Build](http://container.checkforupdates.com/badges/bitnami/phabricator)](https://hub.docker.com/r/bitnami/phabricator/)
 # What is Phabricator?
 
@@ -119,9 +120,9 @@ services:
 
 1. Create a network (if it does not exist)
 
-```bash
-$ docker network create phabricator-tier
-```
+  ```bash
+  $ docker network create phabricator-tier
+  ```
 
 2. Create a MariaDB container with host volume
 

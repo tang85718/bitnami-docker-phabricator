@@ -1,20 +1,20 @@
-FROM gcr.io/stacksmith-images/ubuntu:14.04-r10
+FROM gcr.io/stacksmith-images/minideb:jessie-r2
 
 MAINTAINER Bitnami <containers@bitnami.com>
 
 ENV BITNAMI_APP_NAME=phabricator \
-    BITNAMI_IMAGE_VERSION=2016.35-r1 \
+    BITNAMI_IMAGE_VERSION=2016.45 \
     PATH=/opt/bitnami/arcanist/bin:/opt/bitnami/php/bin:/opt/bitnami/mysql/bin:$PATH
 
 # Additional modules required
-RUN bitnami-pkg unpack apache-2.4.23-5 --checksum ce7996de3c2173a72ad742e7ad0b4d48a1947454d4e0001497be74f19f9aa74c
-RUN bitnami-pkg unpack php-5.6.26-1 --checksum b7a72ae78f9b19352bd400dfe027465c88a8643c0e5d9753f8d12f4ebae542a2
-RUN bitnami-pkg install libphp-5.6.26-1 --checksum 327d070f57727f2ed4f0246d0e3f61c5a94f6366d21a7e7e4572fe6c9c8e8c2d
+RUN bitnami-pkg unpack apache-2.4.23-9 --checksum 25bf5b82662874c21b0c0614c057d06b4a8ec14d8a76181053b691a9dfbf7f94
+RUN bitnami-pkg unpack php-5.6.27-2 --checksum 84d7fe4036a4218a79b006c9fad55eab3cfec7a47d3a86183805f863813001
+RUN bitnami-pkg install libphp-5.6.27-0 --checksum f9039cc69834334187c9b55fc20bf3be818cd87a2088ced2732fead1d1bfb2d6
 RUN bitnami-pkg install git-2.6.1-2 --checksum edc04dc263211f3ffdc953cb96e5e3e76293dbf7a97a075b0a6f04e048b773dd
-RUN bitnami-pkg install mysql-client-10.1.13-4 --checksum 14b45c91dd78b37f0f2366712cbe9bfdf2cb674769435611955191a65dbf4976
+RUN bitnami-pkg install mysql-client-10.1.18-0 --checksum f2f20e0512e7463996a6ad173156d249aa5ca746a1edb6c46449bd4d2736f725
 
 # Install phabricator
-RUN bitnami-pkg unpack phabricator-2016.35-0 --checksum 30be7722b57d2a2602be1de2e53cd8c7b88dfd25198292683beeb351a70b3d9a
+RUN bitnami-pkg unpack phabricator-2016.45-0 --checksum 9fff761f320379ca78fe3e11b74c88060ba24e1582740170819387a5b6231e2f
 
 COPY rootfs /
 

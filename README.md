@@ -6,6 +6,13 @@
 
 https://www.phacility.com/phabricator/
 
+# TL;DR;
+
+```bash
+$ curl -LO https://raw.githubusercontent.com/bitnami/bitnami-docker-phabricator/master/docker-compose.yml
+$ docker-compose up
+```
+
 # Prerequisites
 
 To run this application you need [Docker Engine](https://www.docker.com/products/docker-engine) >= `1.10.0`. [Docker Compose](https://www.docker.com/products/docker-compose) is recommended with a version `1.6.0` or later.

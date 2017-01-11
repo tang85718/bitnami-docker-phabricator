@@ -284,7 +284,7 @@ This would be an example of SMTP configuration using a GMail account:
  * docker-compose:
 
 ```
-  application:
+  phabricator:
     image: bitnami/phabricator:latest
     ports:
       - 80:80

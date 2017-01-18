@@ -43,6 +43,7 @@ services:
     volumes:
       - phabricator_data:/bitnami/phabricator
       - apache_data:/bitnami/apache
+      - php_data:/bitnami/php
 
 volumes:
   mariadb_data:
@@ -50,6 +51,8 @@ volumes:
   phabricator_data:
     driver: local
   apache_data:
+    driver: local
+  php_data:
     driver: local
 ```
 
@@ -84,10 +87,12 @@ If you want to run the application manually instead of using `docker-compose`, t
   ```bash
   $ docker volume create --name phabricator_data
   $ docker volume create --name apache_data
+  $ docker volume create --name php_data
   $ docker run -d --name phabricator -p 80:80 -p 443:443 \
     --net phabricator-tier \
     --volume phabricator_data:/bitnami/phabricator \
     --volume apache_data:/bitnami/apache \
+    --volume php_data:/bitnami/php \
     bitnami/phabricator:latest
   ```
 
@@ -95,7 +100,7 @@ Access your application at <http://your-ip/>
 
 ## Persisting your application
 
-For persistence of the Phabricator deployment, the above examples define docker volumes namely `mariadb_data`, `phabricator_data` and `apache_data`. The Phabricator application state will persist as long as these volumes are not removed.
+For persistence of the Phabricator deployment, the above examples define docker volumes namely `mariadb_data`, `phabricator_data`, `apache_data` and `php_data`. The Phabricator application state will persist as long as these volumes are not removed.
 
 If avoid inadvertent removal of these volumes you can [mount host directories as data volumes](https://docs.docker.com/engine/userguide/containers/dockervolumes/#mount-a-host-directory-as-a-data-volume). Alternatively you can make use of volume plugins to host the volume data.
 
@@ -121,6 +126,7 @@ services:
     volumes:
       - /path/to/phabricator-persistence:/bitnami/phabricator
       - /path/to/apache-persistence:/bitnami/apache
+      - /path/to/php-persistence:/bitnami/php
 ```
 
 ### Mount host directories as data volumes using the Docker command line
@@ -147,6 +153,7 @@ services:
     --net phabricator-tier \
     --volume /path/to/phabricator-persistence:/bitnami/phabricator \
     --volume /path/to/apache-persistence:/bitnami/apache \
+    --volume /path/to/php-persistence:/bitnami/php \
     bitnami/phabricator:latest
   ```
 
@@ -203,6 +210,7 @@ $ docker pull bitnami/phabricator:latest
     --net phabricator-tier \
     --volume phabricator_data:/bitnami/phabricator \
     --volume apache_data:/bitnami/apache \
+    --volume php_data:/bitnami/php \
     bitnami/phabricator:latest
   ```
 
@@ -249,6 +257,7 @@ services:
     volumes:
       - phabricator_data:/bitnami/phabricator
       - apache_data:/bitnami/apache
+      - php_data:/bitnami/php
 
 volumes:
   mariadb_data:
@@ -256,6 +265,8 @@ volumes:
   phabricator_data:
     driver: local
   apache_data:
+    driver: local
+  php_data:
     driver: local
 ```
 
@@ -267,6 +278,7 @@ $ docker run -d --name phabricator -p 80:80 -p 443:443 \
   --env PHABRICATOR_PASSWORD=my_password \
   --volume phabricator_data:/bitnami/phabricator \
   --volume apache_data:/bitnami/apache \
+  --volume php_data:/bitnami/php \
   bitnami/phabricator:latest
 ```
 
@@ -315,11 +327,12 @@ To backup your application data follow these steps:
   $ docker-compose stop phabricator
   ```
 
-2. Copy the Phabricator and Apache data
+2. Copy the Phabricator, Apache and PHP data
 
   ```bash
   $ docker cp $(docker-compose ps -q phabricator):/bitnami/phabricator/ /path/to/backups/phabricator/latest/
   $ docker cp $(docker-compose ps -q phabricator):/bitnami/apache/ /path/to/backups/apache/latest/
+   $ docker cp $(docker-compose ps -q phabricator):/bitnami/php/ /path/to/backups/php/latest/
   ```
 
 3. Start the Phabricator container
@@ -336,11 +349,12 @@ To backup your application data follow these steps:
   $ docker stop phabricator
   ```
 
-2. Copy the Phabricator and Apache data
+2. Copy the Phabricator, Apache and PHP data
 
   ```bash
   $ docker cp phabricator:/bitnami/phabricator/ /path/to/backups/phabricator/latest/
   $ docker cp phabricator:/bitnami/apache/ /path/to/backups/apache/latest/
+  $ docker cp phabricator:/bitnami/php/ /path/to/backups/php/latest/
   ```
 
 3. Start the Phabricator container

@@ -306,7 +306,7 @@ This would be an example of SMTP configuration using a GMail account:
       - SMTP_USER=your_email@gmail.com
       - SMTP_PASSWORD=your_password
     volumes_from:
-      - application_data
+      - phabricator_data
 ```
 
  * For manual execution:

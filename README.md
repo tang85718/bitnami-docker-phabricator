@@ -321,21 +321,28 @@ To backup your application data follow these steps:
 
 ## Backing up using Docker Compose
 
-1. Stop the Phabricator container:
+1. Dump MariaDB data:
+
+  ```bash
+  $ CONTAINER=`docker-compose ps -q phabricator`
+  $ docker exec $CONTAINER /opt/bitnami/phabricator/bin/storage dump | gzip > /path/to/backups/mariadb/latest/bitnami-phabricator-mariadb.sql.gz
+  ```
+
+2. Stop the Phabricator container:
 
   ```bash
   $ docker-compose stop phabricator
   ```
 
-2. Copy the Phabricator, Apache and PHP data
+3. Copy the Phabricator, Apache and PHP data
 
   ```bash
-  $ docker cp $(docker-compose ps -q phabricator):/bitnami/phabricator/ /path/to/backups/phabricator/latest/
-  $ docker cp $(docker-compose ps -q phabricator):/bitnami/apache/ /path/to/backups/apache/latest/
-   $ docker cp $(docker-compose ps -q phabricator):/bitnami/php/ /path/to/backups/php/latest/
+  $ docker cp $CONTAINER:/bitnami/phabricator/ /path/to/backups/phabricator/latest/
+  $ docker cp $CONTAINER:/bitnami/apache/ /path/to/backups/apache/latest/
+  $ docker cp $CONTAINER:/bitnami/php/ /path/to/backups/php/latest/
   ```
 
-3. Start the Phabricator container
+4. Start the Phabricator container
 
   ```bash
   $ docker-compose start phabricator
@@ -343,13 +350,19 @@ To backup your application data follow these steps:
 
 ## Backing up using the Docker command line
 
-1. Stop the Phabricator container:
+1. Dump MariaDB data:
+
+  ```bash
+  $ docker exec phabricator /opt/bitnami/phabricator/bin/storage dump | gzip > /path/to/backups/mariadb/latest/bitnami-phabricator-mariadb.sql.gz
+  ```
+
+2. Stop the Phabricator container:
 
   ```bash
   $ docker stop phabricator
   ```
 
-2. Copy the Phabricator, Apache and PHP data
+3. Copy the Phabricator, Apache and PHP data
 
   ```bash
   $ docker cp phabricator:/bitnami/phabricator/ /path/to/backups/phabricator/latest/
@@ -357,7 +370,7 @@ To backup your application data follow these steps:
   $ docker cp phabricator:/bitnami/php/ /path/to/backups/php/latest/
   ```
 
-3. Start the Phabricator container
+4. Start the Phabricator container
 
   ```bash
   $ docker start phabricator
@@ -366,6 +379,49 @@ To backup your application data follow these steps:
 # Restoring a backup
 
 To restore your application using backed up data simply mount the folder with Phabricator and Apache data in the container. See [persisting your application](#persisting-your-application) section for more info.
+
+## Restoring MariaDB data using Docker Compose
+
+1. Delete current databases:
+
+  ```bash
+  $ PHABRICATOR_CONTAINER=`docker-compose ps -q phabricator`
+  $ docker exec $PHABRICATOR_CONTAINER /opt/bitnami/phabricator/bin/storage destroy --force
+  ```
+
+2. Restore databases: (replace ROOT_PASSWORD below with your MariaDB root password)
+
+  ```bash
+  $ MARIADB_CONTAINER=`docker-compose ps -q mariadb`
+  $ gunzip -c bitnami-phabricator-mariadb.sql.gz | docker exec $MARIADB_CONTAINER mysql -pROOT_PASSWORD
+  ```
+
+3. Upgrade databases:
+
+  ```bash
+  $ docker exec $PHABRICATOR_CONTAINER /opt/bitnami/phabricator/bin/storage upgrade --force
+  ```
+
+## Restoring MariaDB data using the Docker command line
+
+1. Delete current databases:
+
+  ```bash
+  $ docker exec phabricator /opt/bitnami/phabricator/bin/storage destroy --force
+  ```
+
+2. Restore databases: (replace ROOT_PASSWORD below with your MariaDB root password)
+
+  ```bash
+  $ MARIADB_CONTAINER=`docker-compose ps -q mariadb`
+  $ gunzip -c bitnami-phabricator-mariadb.sql.gz | docker exec mariadb mysql -pROOT_PASSWORD
+  ```
+
+3. Upgrade databases:
+
+  ```bash
+  $ docker exec phabricator /opt/bitnami/phabricator/bin/storage upgrade --force
+  ```
 
 # Contributing
 

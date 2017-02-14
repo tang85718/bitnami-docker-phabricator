@@ -21,6 +21,18 @@ RUN bitnami-pkg unpack phabricator-2017.05-0 --checksum d5ed36eb8cc4298cdac6cd0f
 
 COPY rootfs /
 
+ENV APACHE_HTTP_PORT="80" \
+    APACHE_HTTPS_PORT="443" \
+    PHABRICATOR_USERNAME="user" \
+    PHABRICATOR_PASSWORD="bitnami1" \
+    PHABRICATOR_FIRSTNAME="FirstName" \
+    PHABRICATOR_LASTNAME="LastName" \
+    PHABRICATOR_HOST="127.0.0.1" \
+    PHABRICATOR_EMAIL="user@example.com" \
+    MARIADB_USER="root" \
+    MARIADB_HOST="mariadb" \
+    MARIADB_PORT="3306"
+
 VOLUME ["/bitnami/phabricator", "/bitnami/apache", "/bitnami/php"]
 
 EXPOSE 80 443

@@ -413,7 +413,6 @@ To restore your application using backed up data simply mount the folder with Ph
 2. Restore databases: (replace ROOT_PASSWORD below with your MariaDB root password)
 
   ```bash
-  $ MARIADB_CONTAINER=`docker-compose ps -q mariadb`
   $ gunzip -c bitnami-phabricator-mariadb.sql.gz | docker exec mariadb mysql -pROOT_PASSWORD
   ```
 

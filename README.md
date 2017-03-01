@@ -321,46 +321,50 @@ To backup your application data follow these steps:
 
 ## Backing up using Docker Compose
 
-1. Stop the Phabricator container:
+1. Stop containers:
 
   ```bash
-  $ docker-compose stop phabricator
+  $ docker-compose stop
   ```
 
-2. Copy the Phabricator, Apache and PHP data
+2. Copy Phabricator, Apache, PHP and MariaDB data:
 
   ```bash
   $ docker cp $(docker-compose ps -q phabricator):/bitnami/phabricator/ /path/to/backups/phabricator/latest/
   $ docker cp $(docker-compose ps -q phabricator):/bitnami/apache/ /path/to/backups/apache/latest/
-   $ docker cp $(docker-compose ps -q phabricator):/bitnami/php/ /path/to/backups/php/latest/
+  $ docker cp $(docker-compose ps -q phabricator):/bitnami/php/ /path/to/backups/php/latest/
+  $ docker cp $(docker-compose ps -q mariadb):/bitnami/mariadb/ /path/to/backups/mariadb/latest/
   ```
 
-3. Start the Phabricator container
+3. Start containers:
 
   ```bash
-  $ docker-compose start phabricator
+  $ docker-compose start
   ```
 
 ## Backing up using the Docker command line
 
-1. Stop the Phabricator container:
+1. Stop containers:
 
   ```bash
   $ docker stop phabricator
+  $ docker stop mariadb
   ```
 
-2. Copy the Phabricator, Apache and PHP data
+2. Copy Phabricator, Apache, PHP and MariaDB data:
 
   ```bash
   $ docker cp phabricator:/bitnami/phabricator/ /path/to/backups/phabricator/latest/
   $ docker cp phabricator:/bitnami/apache/ /path/to/backups/apache/latest/
   $ docker cp phabricator:/bitnami/php/ /path/to/backups/php/latest/
+  $ docker cp mariadb:/bitnami/mariadb/ /path/to/backups/mariadb/latest/
   ```
 
-3. Start the Phabricator container
+3. Start containers:
 
   ```bash
   $ docker start phabricator
+  $ docker start mariadb
   ```
 
 # Restoring a backup

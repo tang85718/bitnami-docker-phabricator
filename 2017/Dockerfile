@@ -3,7 +3,7 @@ FROM bitnami/minideb-extras:jessie-r13
 MAINTAINER Bitnami <containers@bitnami.com>
 
 ENV BITNAMI_APP_NAME=phabricator \
-    BITNAMI_IMAGE_VERSION=2017.11-r0 \
+    BITNAMI_IMAGE_VERSION=2017.12-r0 \
     PATH=/opt/bitnami/arcanist/bin:/opt/bitnami/git/bin:/opt/bitnami/php/bin:/opt/bitnami/mysql/bin:$PATH
 
 # System packages required
@@ -17,7 +17,7 @@ RUN bitnami-pkg install git-2.10.1-2 --checksum 6f9fd8b0591f268f965930db0c091598
 RUN bitnami-pkg install mysql-client-10.1.22-1 --checksum d9c3d9a5c986ae17eaa5089d85dcd19f314f057102ab40121714e6e3b8c33af5
 
 # Install phabricator
-RUN bitnami-pkg unpack phabricator-2017.11-0 --checksum 5045d48bc1e43caa2db94fb05ba2cb3fe2a60f569b9ce1524fbb47c6cee1607c
+RUN bitnami-pkg unpack phabricator-2017.12-0 --checksum 5a0dfce09064d9b2a8d611cb80105b95445424e719be45cf15b6419e9ae1926a
 
 COPY rootfs /
 

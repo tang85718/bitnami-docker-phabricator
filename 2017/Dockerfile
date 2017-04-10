@@ -3,7 +3,7 @@ FROM bitnami/minideb-extras:jessie-r13
 MAINTAINER Bitnami <containers@bitnami.com>
 
 ENV BITNAMI_APP_NAME=phabricator \
-    BITNAMI_IMAGE_VERSION=2017.13-r0 \
+    BITNAMI_IMAGE_VERSION=2017.14-r0 \
     PATH=/opt/bitnami/arcanist/bin:/opt/bitnami/git/bin:/opt/bitnami/php/bin:/opt/bitnami/mysql/bin:$PATH
 
 # System packages required
@@ -14,10 +14,10 @@ RUN bitnami-pkg unpack apache-2.4.25-0 --checksum 8b46af7d737772d7d301da8b30a277
 RUN bitnami-pkg unpack php-5.6.30-3 --checksum af6c238825d4394fc6352c5ad48c1e6423e21520df927097dab592f0d4ad4662
 RUN bitnami-pkg install libphp-5.6.30-1 --checksum a62cad2320fa2d141309e75663aed3d1bd82626d51b784678d18ec3f985d83bf
 RUN bitnami-pkg install git-2.10.1-2 --checksum 6f9fd8b0591f268f965930db0c091598e5c4f9dccbb6853010e1ac9e5035cd6f
-RUN bitnami-pkg install mysql-client-10.1.22-2 --checksum 39dc3cfbb33831faef044698eec54ae9da93720828ba54b3d96775db680d81d1
+RUN bitnami-pkg install mysql-client-10.1.22-3 --checksum 9e881a7c404f658c93abd665ecd1372f61a591d784e6456c64c0129358a7ff1a
 
 # Install phabricator
-RUN bitnami-pkg unpack phabricator-2017.13-0 --checksum ceb96616a18d37a1a3bac6fba14f9945df3d7167dbbba359f5513e1311305bd6
+RUN bitnami-pkg unpack phabricator-2017.14-0 --checksum 29d37c38a336fa2a6eb904ede87263485d7e904feb3f54249fcf47493a8147c1
 
 COPY rootfs /
 

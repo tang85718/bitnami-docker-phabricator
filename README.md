@@ -1,5 +1,6 @@
 [![CircleCI](https://circleci.com/gh/bitnami/bitnami-docker-phabricator/tree/master.svg?style=shield)](https://circleci.com/gh/bitnami/bitnami-docker-phabricator/tree/master)
 [![Slack](http://slack.oss.bitnami.com/badge.svg)](http://slack.oss.bitnami.com)
+[![Kubectl](https://img.shields.io/badge/kubectl-Available-green.svg)](https://raw.githubusercontent.com/bitnami/bitnami-docker-phabricator/master/kubernetes.yml)
 # What is Phabricator?
 
 > Phabricator is a collection of open source web applications that help software companies build better software. Phabricator is built by developers for developers. Every feature is optimized around developer efficiency for however you like to work. Code Quality starts with effective collaboration between team members.

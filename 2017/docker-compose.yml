@@ -8,6 +8,8 @@ services:
       - 'mariadb_data:/bitnami/mariadb'
   phabricator:
     image: 'bitnami/phabricator:2017'
+    labels:
+      kompose.service.type: nodeport
     ports:
       - '80:80'
       - '443:443'

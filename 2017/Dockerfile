@@ -8,14 +8,14 @@ RUN bitnami-pkg unpack php-5.6.30-3 --checksum af6c238825d4394fc6352c5ad48c1e642
 RUN bitnami-pkg install mysql-client-10.1.23-1 --checksum 0be92fcc4f7fec93edfa7f788e2bbb87b5b3aac92dfdec159a10590345362512
 RUN bitnami-pkg install libphp-5.6.30-1 --checksum a62cad2320fa2d141309e75663aed3d1bd82626d51b784678d18ec3f985d83bf
 RUN bitnami-pkg install git-2.10.1-2 --checksum 6f9fd8b0591f268f965930db0c091598e5c4f9dccbb6853010e1ac9e5035cd6f
-RUN bitnami-pkg unpack phabricator-2017.20-0 --checksum da57c805441de29631272472f7bcee10f109eb263ea6ec5ef095db1cdd2ecb12
+RUN bitnami-pkg unpack phabricator-2017.20-1 --checksum 78fe7cd7c9b91209c3835380b86595d5083017e05703c7c40c010a3d5d5fe088
 
 COPY rootfs /
 
 ENV APACHE_HTTPS_PORT="443" \
     APACHE_HTTP_PORT="80" \
     BITNAMI_APP_NAME="phabricator" \
-    BITNAMI_IMAGE_VERSION="2017.20-r0" \
+    BITNAMI_IMAGE_VERSION="2017.20-r1" \
     MARIADB_HOST="mariadb" \
     MARIADB_PASSWORD="" \
     MARIADB_PORT="3306" \
@@ -27,6 +27,8 @@ ENV APACHE_HTTPS_PORT="443" \
     PHABRICATOR_LASTNAME="LastName" \
     PHABRICATOR_PASSWORD="bitnami1" \
     PHABRICATOR_USERNAME="user"
+
+
 
 VOLUME ["/bitnami/apache","/bitnami/phabricator","/bitnami/php"]
 

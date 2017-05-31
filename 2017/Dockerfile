@@ -17,10 +17,10 @@ COPY rootfs /
 ENV APACHE_HTTPS_PORT_NUMBER="443" \
     APACHE_HTTP_PORT_NUMBER="80" \
     BITNAMI_APP_NAME="phabricator" \
-    BITNAMI_IMAGE_VERSION="2017.21-r0" \
+    BITNAMI_IMAGE_VERSION="2017.21-r1" \
     MARIADB_HOST="mariadb" \
     MARIADB_PASSWORD="" \
-    MARIADB_PORT="3306" \
+    MARIADB_PORT_NUMBER="3306" \
     MARIADB_USER="root" \
     PATH="/opt/bitnami/apache/bin:/opt/bitnami/php/bin:/opt/bitnami/mysql/bin:/opt/bitnami/git/bin:/opt/bitnami/arcanist/bin:$PATH" \
     PHABRICATOR_EMAIL="user@example.com" \

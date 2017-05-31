@@ -258,7 +258,7 @@ The Phabricator instance can be customized by specifying environment variables o
 - `MARIADB_USER`: Root user for the MariaDB database. Default: **root**
 - `MARIADB_PASSWORD`: Root password for the MariaDB.
 - `MARIADB_HOST`: Hostname for MariaDB server. Default: **mariadb**
-- `MARIADB_PORT`: Port used by MariaDB server. Default: **3306**
+- `MARIADB_PORT_NUMBER`: Port used by MariaDB server. Default: **3306**
 
 ### Specifying Environment variables using Docker Compose
 

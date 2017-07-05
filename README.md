@@ -1,6 +1,7 @@
 [![CircleCI](https://circleci.com/gh/bitnami/bitnami-docker-phabricator/tree/master.svg?style=shield)](https://circleci.com/gh/bitnami/bitnami-docker-phabricator/tree/master)
-[![Slack](http://slack.oss.bitnami.com/badge.svg)](http://slack.oss.bitnami.com)
+[![Slack](https://img.shields.io/badge/slack-join%20chat%20%E2%86%92-e01563.svg)](http://slack.oss.bitnami.com)
 [![Kubectl](https://img.shields.io/badge/kubectl-Available-green.svg)](https://raw.githubusercontent.com/bitnami/bitnami-docker-phabricator/master/kubernetes.yml)
+
 # What is Phabricator?
 
 > Phabricator is a collection of open source web applications that help software companies build better software. Phabricator is built by developers for developers. Every feature is optimized around developer efficiency for however you like to work. Code Quality starts with effective collaboration between team members.
@@ -12,15 +13,15 @@ https://www.phacility.com/phabricator/
 ## Docker Compose
 
 ```bash
-$ curl -LO https://raw.githubusercontent.com/bitnami/bitnami-docker-phabricator/master/docker-compose.yml
-$ docker-compose up
+$ curl -sSL https://raw.githubusercontent.com/bitnami/bitnami-docker-prestashop/master/docker-compose.yml > docker-compose.yml
+$ docker-compose up -d
 ```
 
 ## Kubernetes
 
 > **WARNING:** This is a beta configuration, currently unsupported.
 
-Get the raw URL pointing to the kubernetes.yml manifest and use kubectl to create the resources on your Kubernetes cluster like so:
+Get the raw URL pointing to the `kubernetes.yml` manifest and use `kubectl` to create the resources on your Kubernetes cluster like so:
 
 ```bash
 $ kubectl create -f https://raw.githubusercontent.com/bitnami/bitnami-docker-phabricator/master/kubernetes.yml
@@ -55,7 +56,7 @@ services:
     environment:
       - ALLOW_EMPTY_PASSWORD=yes
     volumes:
-      - mariadb_data:/bitnami/mariadb
+      - mariadb_data:/bitnami
   phabricator:
     image: bitnami/phabricator:latest
     depends_on:
@@ -64,18 +65,12 @@ services:
       - '80:80'
       - '443:443'
     volumes:
-      - phabricator_data:/bitnami/phabricator
-      - apache_data:/bitnami/apache
-      - php_data:/bitnami/php
+      - phabricator_data:/bitnami
 
 volumes:
   mariadb_data:
     driver: local
   phabricator_data:
-    driver: local
-  apache_data:
-    driver: local
-  php_data:
     driver: local
 ```
 
@@ -101,7 +96,7 @@ If you want to run the application manually instead of using `docker-compose`, t
   $ docker volume create --name mariadb_data
   $ docker run -d --name mariadb -e ALLOW_EMPTY_PASSWORD=yes \
     --net phabricator-tier \
-    --volume mariadb_data:/bitnami/mariadb \
+    --volume mariadb_data:/bitnami \
     bitnami/mariadb:latest
   ```
 
@@ -109,13 +104,9 @@ If you want to run the application manually instead of using `docker-compose`, t
 
   ```bash
   $ docker volume create --name phabricator_data
-  $ docker volume create --name apache_data
-  $ docker volume create --name php_data
   $ docker run -d --name phabricator -p 80:80 -p 443:443 \
     --net phabricator-tier \
-    --volume phabricator_data:/bitnami/phabricator \
-    --volume apache_data:/bitnami/apache \
-    --volume php_data:/bitnami/php \
+    --volume phabricator_data:/bitnami \
     bitnami/phabricator:latest
   ```
 
@@ -123,9 +114,13 @@ Access your application at <http://your-ip/>
 
 ## Persisting your application
 
-For persistence of the Phabricator deployment, the above examples define docker volumes namely `mariadb_data`, `phabricator_data`, `apache_data` and `php_data`. The Phabricator application state will persist as long as these volumes are not removed.
+If you remove the container all your data and configurations will be lost, and the next time you run the image the database will be reinitialized. To avoid this loss of data, you should mount a volume that will persist even after the container is removed.
 
-If avoid inadvertent removal of these volumes you can [mount host directories as data volumes](https://docs.docker.com/engine/userguide/containers/dockervolumes/#mount-a-host-directory-as-a-data-volume). Alternatively you can make use of volume plugins to host the volume data.
+For persistence you should mount a volume at the `/bitnami` path. Additionally you should mount a volume for [persistence of the MariaDB data](https://github.com/bitnami/bitnami-docker-mariadb#persisting-your-database).
+
+The above examples define docker volumes namely `mariadb_data` and `phabricator_data`. The Phabricator application state will persist as long as these volumes are not removed.
+
+To avoid inadvertent removal of these volumes you can [mount host directories as data volumes](https://docs.docker.com/engine/tutorials/dockervolumes/). Alternatively you can make use of volume plugins to host the volume data.
 
 ### Mount host directories as data volumes with Docker Compose
 
@@ -140,7 +135,7 @@ services:
     environment:
       - ALLOW_EMPTY_PASSWORD=yes
     volumes:
-      - /path/to/mariadb-persistence:/bitnami/mariadb
+      - /path/to/mariadb-persistence:/bitnami
   phabricator:
     image: bitnami/phabricator:latest
     depends_on:
@@ -149,9 +144,7 @@ services:
       - '80:80'
       - '443:443'
     volumes:
-      - /path/to/phabricator-persistence:/bitnami/phabricator
-      - /path/to/apache-persistence:/bitnami/apache
-      - /path/to/php-persistence:/bitnami/php
+      - /path/to/phabricator-persistence:/bitnami
 ```
 
 ### Mount host directories as data volumes using the Docker command line
@@ -167,7 +160,7 @@ services:
   ```bash
   $ docker run -d --name mariadb -e ALLOW_EMPTY_PASSWORD=yes \
     --net phabricator-tier \
-    --volume /path/to/mariadb-persistence:/bitnami/mariadb \
+    --volume /path/to/mariadb-persistence:/bitnami \
     bitnami/mariadb:latest
   ```
 
@@ -176,9 +169,7 @@ services:
   ```bash
   $ docker run -d --name phabricator -p 80:80 -p 443:443 \
     --net phabricator-tier \
-    --volume /path/to/phabricator-persistence:/bitnami/phabricator \
-    --volume /path/to/apache-persistence:/bitnami/apache \
-    --volume /path/to/php-persistence:/bitnami/php \
+    --volume /path/to/phabricator-persistence:/bitnami \
     bitnami/phabricator:latest
   ```
 
@@ -188,60 +179,36 @@ Bitnami provides up-to-date versions of MariaDB and Phabricator, including secur
 
 The `bitnami/phabricator:latest` tag always points to the most recent release. To get the most recent release you can simple repull the `latest` tag from the Docker Hub with `docker pull bitnami/phabricator:latest`. However it is recommended to use [tagged versions](https://hub.docker.com/r/bitnami/phabricator/tags/).
 
-Get the updated image:
+1. Get the updated images:
 
+  ```bash
+  $ docker pull bitnami/phabricator:latest
+  ```
+
+2. Stop your container
+
+ * For docker-compose: `$ docker-compose stop phabricator`
+ * For manual execution: `$ docker stop phabricator`
+
+3. Take a snapshot of the application state
+
+```bash
+$ rsync -a /path/to/phabricator-persistence /path/to/phabricator-persistence.bkp.$(date +%Y%m%d-%H.%M.%S)
 ```
-$ docker pull bitnami/phabricator:latest
-```
 
-## Using Docker Compose
+Additionally, [snapshot the MariaDB data](https://github.com/bitnami/bitnami-docker-mariadb#step-2-stop-and-backup-the-currently-running-container)
 
-1. Stop the running Phabricator container
+You can use these snapshots to restore the application state should the upgrade fail.
 
-  ```bash
-  $ docker-compose stop phabricator
-  ```
+4. Remove the currently running container
 
-2. Remove the stopped container
+ * For docker-compose: `$ docker-compose rm -v phabricator`
+ * For manual execution: `$ docker rm -v phabricator`
 
-  ```bash
-  $ docker-compose rm phabricator
-  ```
+5. Run the new image
 
-3. Launch the updated Phabricator image
-
-  ```bash
-  $ docker-compose start phabricator
-  ```
-
-## Using Docker command line
-
-1. Stop the running Phabricator container
-
-  ```bash
-  $ docker stop phabricator
-  ```
-
-2. Remove the stopped container
-
-  ```bash
-  $ docker rm phabricator
-  ```
-
-3. Launch the updated Phabricator image
-
-  ```bash
-  $ docker run -d --name phabricator -p 80:80 -p 443:443 \
-    --net phabricator-tier \
-    --volume phabricator_data:/bitnami/phabricator \
-    --volume apache_data:/bitnami/apache \
-    --volume php_data:/bitnami/php \
-    bitnami/phabricator:latest
-  ```
-
-> **NOTE**:
->
-> The above command assumes that local docker volumes are in use. Edit the command according to your usage.
+ * For docker-compose: `$ docker-compose start phabricator`
+ * For manual execution ([mount](#mount-persistent-folders-manually) the directories if needed): `docker run --name phabricator bitnami/phabricator:latest`
 
 # Configuration
 
@@ -271,7 +238,7 @@ services:
     environment:
       - ALLOW_EMPTY_PASSWORD=yes
     volumes:
-      - mariadb_data:/bitnami/mariadb
+      - mariadb_data:/bitnami
   phabricator:
     image: bitnami/phabricator:latest
     depends_on:
@@ -282,18 +249,12 @@ services:
     environment:
       - PHABRICATOR_PASSWORD=my_password
     volumes:
-      - phabricator_data:/bitnami/phabricator
-      - apache_data:/bitnami/apache
-      - php_data:/bitnami/php
+      - phabricator_data:/bitnami
 
 volumes:
   mariadb_data:
     driver: local
   phabricator_data:
-    driver: local
-  apache_data:
-    driver: local
-  php_data:
     driver: local
 ```
 
@@ -303,15 +264,14 @@ volumes:
 $ docker run -d --name phabricator -p 80:80 -p 443:443 \
   --net phabricator-tier \
   --env PHABRICATOR_PASSWORD=my_password \
-  --volume phabricator_data:/bitnami/phabricator \
-  --volume apache_data:/bitnami/apache \
-  --volume php_data:/bitnami/php \
+  --volume phabricator_data:/bitnami \
   bitnami/phabricator:latest
 ```
 
 ### SMTP Configuration
 
 To configure phabricator to send email using SMTP you can set the following environment variables:
+
  - `SMTP_HOST`: SMTP host.
  - `SMTP_PORT`: SMTP port.
  - `SMTP_USER`: SMTP account user.
@@ -322,7 +282,7 @@ This would be an example of SMTP configuration using a GMail account:
 
  * docker-compose:
 
-```
+```yaml
   phabricator:
     image: bitnami/phabricator:latest
     ports:
@@ -332,71 +292,13 @@ This would be an example of SMTP configuration using a GMail account:
       - SMTP_PORT=587
       - SMTP_USER=your_email@gmail.com
       - SMTP_PASSWORD=your_password
-    volumes_from:
-      - phabricator_data
 ```
 
  * For manual execution:
 
+```bash
+ $ docker run -d -e SMTP_HOST=smtp.gmail.com -e SMTP_PORT=587 -e SMTP_USER=your_email@gmail.com -e SMTP_PASSWORD=your_password -p 80:80 --name phabricator -v /your/local/path/bitnami/phabricator:/bitnami --net=phabricator_network bitnami/phabricator
 ```
- $ docker run -d -e SMTP_HOST=smtp.gmail.com -e SMTP_PORT=587 -e SMTP_USER=your_email@gmail.com -e SMTP_PASSWORD=your_password -p 80:80 --name phabricator -v /your/local/path/bitnami/phabricator:/bitnami/phabricator --net=phabricator_network bitnami/phabricator
-```
-
-# Backing up your application
-
-To backup your application data follow these steps:
-
-## Backing up using Docker Compose
-
-1. Stop containers:
-
-  ```bash
-  $ docker-compose stop
-  ```
-
-2. Copy Phabricator, Apache, PHP and MariaDB data:
-
-  ```bash
-  $ docker cp $(docker-compose ps -q phabricator):/bitnami/phabricator/ /path/to/backups/phabricator/latest/
-  $ docker cp $(docker-compose ps -q phabricator):/bitnami/apache/ /path/to/backups/apache/latest/
-  $ docker cp $(docker-compose ps -q phabricator):/bitnami/php/ /path/to/backups/php/latest/
-  $ docker cp $(docker-compose ps -q mariadb):/bitnami/mariadb/ /path/to/backups/mariadb/latest/
-  ```
-
-3. Start containers:
-
-  ```bash
-  $ docker-compose start
-  ```
-
-## Backing up using the Docker command line
-
-1. Stop containers:
-
-  ```bash
-  $ docker stop phabricator
-  $ docker stop mariadb
-  ```
-
-2. Copy Phabricator, Apache, PHP and MariaDB data:
-
-  ```bash
-  $ docker cp phabricator:/bitnami/phabricator/ /path/to/backups/phabricator/latest/
-  $ docker cp phabricator:/bitnami/apache/ /path/to/backups/apache/latest/
-  $ docker cp phabricator:/bitnami/php/ /path/to/backups/php/latest/
-  $ docker cp mariadb:/bitnami/mariadb/ /path/to/backups/mariadb/latest/
-  ```
-
-3. Start containers:
-
-  ```bash
-  $ docker start phabricator
-  $ docker start mariadb
-  ```
-
-# Restoring a backup
-
-To restore your application using backed up data simply mount the folder with Phabricator and Apache data in the container. See [persisting your application](#persisting-your-application) section for more info.
 
 # How to migrate from a Bitnami Phabricator Stack
 
@@ -468,10 +370,10 @@ You can follow these steps in order to migrate it to this container:
 
   ```bash
   $ cat | docker-compose exec mariadb mysql -pROOT_PASSWORD <<EOF
-  USE bitnami_phabricator_repository;
-  UPDATE repository SET localPath = REPLACE(localPath, '/bitnami/apps/phabricator/repo/', '/opt/bitnami/phabricator/repo/');
-  COMMIT;
-  EOF
+USE bitnami_phabricator_repository;
+UPDATE repository SET localPath = REPLACE(localPath, '/bitnami/apps/phabricator/repo/', '/opt/bitnami/phabricator/repo/');
+COMMIT;
+EOF
   ```
 
 10. Fix phabricator directory permissions:
@@ -512,7 +414,7 @@ Discussions are archived at [bitnami-oss.slackarchive.io](https://bitnami-oss.sl
 
 # License
 
-Copyright 2016 Bitnami
+Copyright 2016-2017 Bitnami
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

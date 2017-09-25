@@ -8,7 +8,7 @@
 
 https://www.phacility.com/phabricator/
 
-# TL;DR;
+# TL;DR
 
 ## Docker Compose
 

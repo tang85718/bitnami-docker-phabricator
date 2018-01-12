@@ -6,7 +6,7 @@
 print_welcome_page
 
 if [[ "$1" == "nami" && "$2" == "start" ]] || [[ "$1" == "/run.sh" ]]; then
-  nami_initialize apache phabricator
+  nami_initialize apache php phabricator
   info "Starting phabricator... "
 fi
 

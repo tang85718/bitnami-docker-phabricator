@@ -10,11 +10,6 @@ RUN bitnami-pkg install libphp-7.1.11-0 --checksum 9acea15fe83658d792dc6b272f406
 RUN bitnami-pkg install git-2.16.1-0 --checksum 56a9643b80831a3a85e6b4cf3d5ec5399438e5e27d84089aa383f9d34ee00996
 RUN bitnami-pkg unpack phabricator-2018.3.0-0 --checksum d8b919fc1d719a16c5badbec4ed7647130a068197c474740effabaf72d8052a2
 
-RUN apt-get update \
-&& apt install python-pip \
-&& pip install --upgrade pip \
-&& pip install Pygments
-
 COPY rootfs /
 
 ENV APACHE_HTTPS_PORT_NUMBER="443" \
